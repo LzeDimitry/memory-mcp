@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "memory": {
-      "command": "uv",
-      "args": ["--directory", "/home/ras/.memory-mcp", "run", "memory-mcp"]
-    }
-  }
-}

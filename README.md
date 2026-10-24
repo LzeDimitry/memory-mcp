@@ -43,14 +43,12 @@ the embedding model is pulled automatically on first use.
 }
 ```
 
-Ready-made snippets for specific clients live in [`configs/`](configs/).
 Omit `MEMORY_MCP_DB_PATH` to get a separate database per project
 (`<cwd>/.memory/memories.db`).
 
 ### Codex CLI / IDE extension
 
-Add to `~/.codex/config.toml` (shared by CLI and IDE extension) — see
-[`configs/codex-config.toml`](configs/codex-config.toml):
+Add to `~/.codex/config.toml` (shared by CLI and IDE extension):
 
 ```toml
 [mcp_servers.memory]
@@ -61,8 +59,7 @@ args = ["--directory", "/path/to/memory-mcp", "run", "memory-mcp"]
 ### Google Antigravity
 
 Agent panel → additional options (…) → **MCP Servers** → add, or edit
-`mcp_config.json` directly — see
-[`configs/antigravity-mcp.json`](configs/antigravity-mcp.json). Known
+`mcp_config.json` directly. Known
 gotcha: Antigravity rejects a `type` field — stdio is the default, so
 use the snippet as-is, without `type`.
 
