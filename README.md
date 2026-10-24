@@ -56,12 +56,19 @@ command = "uv"
 args = ["--directory", "/path/to/memory-mcp", "run", "memory-mcp"]
 ```
 
-### Google Antigravity
+### Google Antigravity (IDE)
 
 Agent panel → additional options (…) → **MCP Servers** → add, or edit
-`mcp_config.json` directly. Known
-gotcha: Antigravity rejects a `type` field — stdio is the default, so
-use the snippet as-is, without `type`.
+`~/.gemini/antigravity/mcp_config.json` directly. Known gotcha:
+Antigravity rejects a `type` field — stdio is the default, so use the
+snippet as-is, without `type`.
+
+### Antigravity CLI
+
+Edit `~/.gemini/antigravity-cli/mcp_config.json` with the same
+`mcpServers` JSON block as above, or run `/mcp` inside the CLI and add
+the server through the interactive MCP Manager. A project-local variant
+lives at `.antigravitycli/mcp_config.json` inside the repository.
 
 All clients share one database when pointed at the same
 `MEMORY_MCP_DB_PATH`, or keep independent per-project databases when
