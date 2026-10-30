@@ -32,10 +32,39 @@ class HashEmbedder(Embedder):
         return self._vec(text)
 
 
+class OutageEmbedder(HashEmbedder):
+    """Simulates an Ollama outage: the first save stores no embedding."""
+
+    def __init__(self, cfg, dim=64) -> None:
+        super().__init__(cfg, dim)
+        self.outage = True
+
+    def embed_documents(self, texts):
+        if self.outage:
+            return None
+        return super().embed_documents(texts)
+
+
 @pytest.fixture
 def store(tmp_path):
     cfg = Config(db_path=str(tmp_path / "test.db"))
     return MemoryStore(cfg, HashEmbedder(cfg))
+
+
+def test_save_survives_rows_saved_during_outage(tmp_path):
+    """Rows saved while the embedder was down get NULL embeddings; the next
+    vectorized save must skip them in find_similar instead of crashing on
+    np.frombuffer(None)."""
+    cfg = Config(db_path=str(tmp_path / "test.db"))
+    embedder = OutageEmbedder(cfg)
+    store = MemoryStore(cfg, embedder)
+    first = store.save("Auth rate limit is 10 per minute", "fact")
+    assert first["vectorized"] is False
+
+    embedder.outage = False
+    second = store.save("Auth rate limit is 20 per minute", "fact")
+    assert second["saved_id"] == first["saved_id"] + 1
+    assert second["vectorized"] is True
 
 
 def test_save_and_search_finds_exact_words(store):

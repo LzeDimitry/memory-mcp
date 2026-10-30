@@ -125,7 +125,9 @@ A persistent memory store is available via the `memory_*` MCP tools.
 ## Tests
 
 ```bash
-uv run pytest -q
+uv run python -m pytest -q
 ```
 
-Tests run without Ollama (deterministic fake embedder).
+Tests run without Ollama (deterministic fake embedder). Use
+`python -m pytest` — the bare `pytest` script fails to import the
+src-layout package under `uv run`.

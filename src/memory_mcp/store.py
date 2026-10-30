@@ -192,7 +192,7 @@ class MemoryStore:
         if new_vec is not None:
             rows = self.db.execute(
                 "SELECT id, type, content, embedding FROM memories"
-                " WHERE status='active' AND id != ?",
+                " WHERE status='active' AND id != ? AND embedding IS NOT NULL",
                 (exclude_id,),
             ).fetchall()
             if rows:
